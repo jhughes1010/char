@@ -1,7 +1,7 @@
 #characterization parser
 require 'benchmark'
 
-folder = "POST HBM_LATCHUP"
+folder = "postHTStow1"
 
 pass = 0
 total = 0
@@ -65,12 +65,12 @@ Dir.glob(folder +"/*.*") do |file|
           
         end
         unless (record[1].match(/tb_I/)|| data.match(/bin number|TN:|tb_input_leakage_low|tb_opens|tb_shorts/))
-         #puts "----> #{file}, #{serialNumber}, #{record[2]}, #{record[1]}, #{record[3]}, #{record[4]}"
-         csv.print "#{file}, #{serialNumber}, #{record[2]}, #{record[1]}, #{record[3]}, #{record[4]}\n"
+         puts "----> #{file}, #{serialNumber}, #{record[2].sub(/IDSN\d:/,'IDSN1:')}, #{record[1]}, #{record[3]}, #{record[4]}"
+         csv.print "#{file}, #{serialNumber}, #{record[2].sub(/IDSN\d:/,'IDSN1:')}, #{record[1]}, #{record[3]}, #{record[4]}\n"
         end
         if record[1].match(/tb_I/)
           #jh puts "----> #{file}, #{serialNumber}, #{record[2]}, #{record[1]}, #{record[6]}, #{record[7]}"
-          csv.print "#{file}, #{serialNumber}, #{record[2]}, #{record[1]}, #{record[6]}, #{record[7]}\n"
+          csv.print "#{file}, #{serialNumber}, #{record[2].sub(/IDSN\d:/,'IDSN1:')}, #{record[1]}, #{record[6]}, #{record[7]}\n"
         end
         
       
@@ -101,13 +101,19 @@ Dir.glob(folder +"/*.*") do |file|
           end
           leakageRecord[2] = record[1]
           #puts "----> #{file}, #{serialNumber}, #{leakageRecord[2]}, #{leakageRecord[1]}, #{leakageRecord[6]}, #{leakageRecord[7]}"
-          csv.print "#{file}, #{serialNumber}, #{leakageRecord[2]}, #{leakageRecord[1]}, #{leakageRecord[6]}, #{leakageRecord[7]}\n"
+          csv.print "#{file}, #{serialNumber}, #{leakageRecord[2].sub(/IDSN\d:/,'IDSN1:')}, #{leakageRecord[1]}, #{leakageRecord[6]}, #{leakageRecord[7]}\n"
           
-          puts data
+          #puts data
           pass += 1
+          record = data.split(/:| |=/)
+          #puts record
+          csv.print "#{file}, #{serialNumber}, IDSN1:#{record[3]}, bin, #{record[18]}\n"
         elsif data.match(/bin number/)
           puts data
           total += 1
+          record = data.split(/:| |=/)
+          puts record
+          csv.print "#{file}, #{serialNumber}, IDSN1:#{record[3]}, bin, #{record[16]}\n"
         end
       end
     end #line
