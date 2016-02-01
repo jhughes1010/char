@@ -65,7 +65,7 @@ Dir.glob(folder +"/*.*") do |file|
           end
           
         end
-        unless (record[1].match(/tb_I/)|| data.match(/bin number|TN:|tb_input_leakage_low|tb_opens|tb_shorts/))
+        unless (record[1].match(/tb_I/) || record[1].match(/tb_vcc_opens_shorts/)||data.match(/bin number|TN:|tb_input_leakage_low|tb_opens|tb_shorts/))
          #puts "----> #{file}, #{serialNumber}, #{record[2].sub(/IDSN\d:/,'IDSN1:')}, #{record[1]}, #{record[3]}, #{record[4]}"
          csv.print "#{file}, #{serialNumber}, #{record[2].sub(/IDSN\d:/,'IDSN1:')}, #{record[1]}, #{record[3]}, #{record[4]}\n"
         end
